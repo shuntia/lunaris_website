@@ -1,0 +1,34 @@
+.header {
+	height: 90vh;
+	width: 99vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	justify-items: center;
+	text-align: center;
+	font-family: "Elianto", sans-serif;
+	color: beige;
+}
+
+#title {
+	font-size: 15vh;
+}
+
+#desc {
+	position: absolute;
+	top: 70vh;
+	font-size: 5vh;
+}
+
+@font-face {
+	src: url("/fonts/Elianto-Regular.otf") format("opentype");
+	font-family: "Elianto";
+	font-weight: normal;
+	font-style: normal;
+}
+
+.base {
+	background-image: url("/assets/starry_sky.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+}
