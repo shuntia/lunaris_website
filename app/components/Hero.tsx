@@ -48,7 +48,6 @@ export default function Hero() {
           className="object-cover opacity-70"
         />
       </motion.div>
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-[#05010D]/80 to-[#03030A]" />
       <div className="relative z-10 flex max-w-5xl flex-col items-center gap-8">
         <p className={`${inter.className} text-sm uppercase tracking-[0.3em] text-indigo-300`}>
           v0.1 pre-release
