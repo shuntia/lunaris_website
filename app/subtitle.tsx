@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { inter } from "./fonts";
 import { motion } from "framer-motion";
 
 export function Subtitle() {
-  const subtitle = "The video editor that makes you shine.";
+  const subtitle = "Reflect your creativity.";
   const letters = subtitle.split("");
 
   return <p

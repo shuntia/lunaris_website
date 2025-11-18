@@ -1,3 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-	document.getElementById("overlay").remove;
-})
+  const overlay = document.getElementById("overlay");
+  overlay?.remove();
+});

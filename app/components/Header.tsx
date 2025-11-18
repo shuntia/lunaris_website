@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { elianto, inter, montserrat } from "../fonts";
+import { elianto, montserrat } from "../fonts";
 import Link from "next/link";
 
 export default function Header() {
@@ -42,4 +42,3 @@ export default function Header() {
     </motion.header>
   );
 }
-

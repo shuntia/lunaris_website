@@ -1,43 +1,238 @@
-import { elianto, inter, montserrat } from "./fonts";
-import React, { Suspense } from "react";
-import { Subtitle } from "./subtitle";
-import Image from "next/image";
-import Content from "./components/Content";
+import Hero from "./components/Hero";
 import ScrollTop from "./components/ScrollTop";
+import { inter, montserrat } from "./fonts";
 
+const builds = [
+  {
+    title: "Video editor",
+    description:
+      "Add timeline, codecs, color tools, and export plugins to assemble a modern editor that you control end-to-end.",
+    plugins: ["Timeline & sequencing", "GPU accelerated codecs", "Color grading nodes"],
+  },
+  {
+    title: "DAW / audio workstation",
+    description:
+      "Compose MIDI, DSP, and synth plugins to craft a DAW tailored to your workflow without the bloat.",
+    plugins: ["MIDI routing", "Audio graph", "FX + instrument racks"],
+  },
+  {
+    title: "Motion graphics suite",
+    description:
+      "Mix animation canvas, rigs, and simulation plugins for procedural motion design and VFX work.",
+    plugins: ["Animation canvas", "Rigging layers", "Simulation kernels"],
+  },
+  {
+    title: "Your own tool",
+    description:
+      "Prototype experimental creative software by composing only the primitives you need. Lunaris stays out of the way.",
+    plugins: ["Custom UI", "Domain specific ops", "Shared plugin APIs"],
+  },
+];
+
+const architecturePoints = [
+  {
+    title: "Microkernel core",
+    detail: "Roughly 400 lines that handle GPU init (wgpu), ECS, scheduling, and messaging. Everything else is a plugin.",
+  },
+  {
+    title: "Plugins define behavior",
+    detail: "UI, codecs, tools, storage, and workflows live in plugins. Replace or fork them without touching the core.",
+  },
+  {
+    title: "Compose like VSCode",
+    detail: "Each plugin exports APIs that other plugins call directly. Compose them just like VSCode extensions or Emacs lisp.",
+  },
+  {
+    title: "Static linking for speed",
+    detail: "Plugins are Rust crates linked statically, so you keep type safety and zero-cost abstractions.",
+  },
+];
+
+const developerHighlights = [
+  "Write plugins in Rust with type-safe APIs and no virtual machine.",
+  "Call other plugins directly—no black-box IPC or fragile scripting layers.",
+  "Drop to native when needed: Metal, Vulkan, DX12 via wgpu boundaries.",
+  "Ship cross-platform builds (Windows, macOS, Linux) from one codebase.",
+];
+
+const pluginSnippet = `use lunaris::prelude::*;
+
+pub struct TimelinePlugin;
+
+impl Plugin for TimelinePlugin {
+    fn build(&self, app: &mut App) {
+        app.register_system(UpdateStage, timeline::update)
+           .expose_api("editor.timeline", timeline::api);
+    }
+}
+
+pub fn bootstrap() {
+    App::new()
+        .add_plugin(CorePlugin)
+        .add_plugin(RenderPlugin)
+        .add_plugin(TimelinePlugin)
+        .run();
+}`;
+
+const getStarted = [
+  {
+    title: "For power users",
+    description: "Download Lunaris bundled with the video editor stack and start editing with a transparent pipeline.",
+    actions: [{ label: "Download build", href: "https://github.com/shuntia/lunaris/releases" }],
+  },
+  {
+    title: "For plugin developers",
+    description: "Follow the ten-minute tutorial to write your first plugin and compose it with the existing stack.",
+    actions: [
+      { label: "Read tutorial", href: "https://github.com/shuntia/lunaris/tree/main/docs" },
+      { label: "Open repo", href: "https://github.com/shuntia/lunaris" },
+    ],
+  },
+];
 
 export default function Home() {
   return (
-    <Suspense>
+    <main className={`bg-[#03030A] text-[#FFFEED] ${inter.className}`}>
       <ScrollTop />
-      <Image
-        src="/assets/starry_sky.jpg"
-        alt="Background"
-        className="object-cover"
-        width={5456}
-        height={3632}
-        style={{ position: "fixed", top: 0, left: 0, zIndex: -1 }}
-        priority
-      />
-      <div className="h-screen w-full bg-cover bg-center bg-fixed relative text-[#FFFEED]">
-        <h1
-          className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[1000%] ${elianto.className}`}
-        >
-          LUNARIS
-        </h1>
-        <Subtitle />
+      <Hero />
 
-      </div>
-      <Content className={`h-screen flex items-center justify-center ${montserrat.className} flex-col justify-start start-50 space-y-20 pt-30 px-50 text-center `}>
-        <h1 className="text-3xl">
-          Lunaris is the Free, Open Source video editor.
-        </h1>
-        <p className="text-xl leading-10">
-          Lunaris is a lightweight, cross-platform video and audio editor designed for creators who love precision and speed. With modular tools, intuitive controls, and a sleek interface, Lunaris helps you craft projects efficiently without distractions—perfect for music videos, animations, and experimental media.
+      <section className="bg-[#05010D] px-6 py-24">
+        <div className="mx-auto max-w-5xl space-y-6 text-center">
+          <p className={`text-sm uppercase tracking-[0.3em] text-indigo-300 ${montserrat.className}`}>
+            Platform-first
+          </p>
+          <h2 className="text-4xl font-semibold">Lunaris is a multimedia platform, not a finished product.</h2>
+          <p className="text-lg text-indigo-100">
+            Think VSCode for creative software. Install or write plugins to assemble the exact workflow you need:
+            timelines, MIDI, simulation kernels, or a brand new domain entirely. The minimal core stays stable so
+            plugins can evolve quickly.
+          </p>
+          <div className="grid gap-6 text-left md:grid-cols-3">
+            <div className="rounded-2xl border border-indigo-900/40 bg-[#080414] p-6">
+              <p className="text-sm uppercase tracking-wide text-indigo-300">Built in Rust</p>
+              <p className="mt-3 text-base text-indigo-100">Microkernel core (~400 LOC) keeps the runtime predictable.</p>
+            </div>
+            <div className="rounded-2xl border border-indigo-900/40 bg-[#080414] p-6">
+              <p className="text-sm uppercase tracking-wide text-indigo-300">Extensible</p>
+              <p className="mt-3 text-base text-indigo-100">Add, remove, or swap plugins without forks or rewrites.</p>
+            </div>
+            <div className="rounded-2xl border border-indigo-900/40 bg-[#080414] p-6">
+              <p className="text-sm uppercase tracking-wide text-indigo-300">Composable</p>
+              <p className="mt-3 text-base text-indigo-100">Plugins expose APIs so other plugins can call into them directly.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#04030A] px-6 py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-12 text-center">
+            <p className={`text-sm uppercase tracking-[0.3em] text-emerald-300 ${montserrat.className}`}>
+              What you can build
+            </p>
+            <h2 className="mt-4 text-4xl font-semibold">Add plugins and Lunaris becomes the tool you need.</h2>
+            <p className="mt-3 text-lg text-indigo-100">
+              Start from the minimal kernel, then mix and match plugins for your use case.
+            </p>
+          </div>
+          <div className="grid gap-8 md:grid-cols-2">
+            {builds.map((build) => (
+              <div key={build.title} className="rounded-3xl border border-indigo-900/50 bg-gradient-to-br from-[#0B0520] to-[#050312] p-8 shadow-2xl shadow-black/30">
+                <h3 className="text-2xl font-semibold">{build.title}</h3>
+                <p className="mt-4 text-base text-indigo-100">{build.description}</p>
+                <ul className="mt-6 space-y-2 text-sm text-indigo-200">
+                  {build.plugins.map((plugin) => (
+                    <li key={plugin} className="flex items-center gap-3">
+                      <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                      {plugin}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#05010D] px-6 py-24">
+        <div className="mx-auto max-w-6xl grid gap-12 lg:grid-cols-2 lg:items-start">
+          <div>
+            <p className={`text-sm uppercase tracking-[0.3em] text-indigo-300 ${montserrat.className}`}>
+              How it works
+            </p>
+            <h2 className="mt-4 text-4xl font-semibold">A microkernel with plugins that define every capability.</h2>
+            <p className="mt-4 text-lg text-indigo-100">
+              The Lunaris core only boots the engine, schedules jobs, and exposes GPU/device access. Everything else—UI, tools,
+              codecs, physics—lives in plugins so you can swap implementations or keep experimental forks side-by-side.
+            </p>
+            <div className="mt-8 space-y-6">
+              {architecturePoints.map((point) => (
+                <div key={point.title} className="rounded-2xl border border-indigo-900/40 bg-[#080414] p-6">
+                  <h3 className="text-xl font-semibold">{point.title}</h3>
+                  <p className="mt-2 text-base text-indigo-100">{point.detail}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="rounded-3xl border border-indigo-900/50 bg-[#09031A] p-6 shadow-2xl shadow-black/40">
+            <div className="mb-4 flex items-center justify-between text-sm text-indigo-300">
+              <span>Plugin registration</span>
+              <span>Rust</span>
+            </div>
+            <pre className="overflow-x-auto rounded-2xl bg-[#05010D] p-6 text-sm text-emerald-200">
+              <code>{pluginSnippet}</code>
+            </pre>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#04030A] px-6 py-24">
+        <div className="mx-auto max-w-5xl text-center">
+          <p className={`text-sm uppercase tracking-[0.3em] text-emerald-300 ${montserrat.className}`}>
+            For developers
+          </p>
+          <h2 className="mt-4 text-4xl font-semibold">Built for systems programmers who care about extensibility.</h2>
+          <div className="mt-10 grid gap-6 text-left md:grid-cols-2">
+            {developerHighlights.map((point) => (
+              <div key={point} className="rounded-2xl border border-emerald-500/20 bg-[#050814] p-6">
+                <div className="mb-3 h-1 w-12 rounded-full bg-emerald-400" />
+                <p className="text-base text-indigo-100">{point}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#05010D] px-6 py-24">
+        <div className="mx-auto max-w-5xl text-center">
+          <p className={`text-sm uppercase tracking-[0.3em] text-indigo-300 ${montserrat.className}`}>
+            Get started
+          </p>
+          <h2 className="mt-4 text-4xl font-semibold">Choose your entry point.</h2>
+        </div>
+        <div className="mx-auto mt-12 grid max-w-5xl gap-8 md:grid-cols-2">
+          {getStarted.map((card) => (
+            <div key={card.title} className="flex flex-col rounded-3xl border border-indigo-900/40 bg-[#080414] p-8">
+              <h3 className="text-2xl font-semibold">{card.title}</h3>
+              <p className="mt-4 text-base text-indigo-100">{card.description}</p>
+              <div className="mt-8 flex flex-wrap gap-4">
+                {card.actions.map((action) => (
+                  <a
+                    key={action.label}
+                    href={action.href}
+                    className="flex-1 rounded-full border border-indigo-200/60 px-6 py-3 text-center text-sm font-semibold text-indigo-100 transition hover:border-white hover:text-white"
+                  >
+                    {action.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+        <p className="mx-auto mt-12 max-w-3xl text-center text-sm text-indigo-200">
+          Honest roadmap: v0.1 launches March 2025 with the first 100 users. Until then we are shipping plugins in the open—bring your ideas.
         </p>
-        <p className="text-2xl pt-30 leading-10">Help us out on <a className="underline" href="https://github.com/shuntia/lunaris">GitHub</a>.</p>
-      </Content>
-    </Suspense>
+      </section>
+    </main>
   );
 }
-
