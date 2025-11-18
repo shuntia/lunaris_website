@@ -1,6 +1,27 @@
+import type { Metadata } from "next";
 import Hero from "./components/Hero";
 import ScrollTop from "./components/ScrollTop";
 import { inter, montserrat } from "./fonts";
+
+export const metadata: Metadata = {
+  title: "Lunaris — Minimal core, infinite possibilities",
+  description:
+    "Lunaris is a multimedia engine with a microkernel plugin architecture. Compose Rust plugins to build video editors, DAWs, animation tools, or entirely new creative software.",
+  openGraph: {
+    title: "Lunaris — Minimal core, infinite possibilities",
+    description:
+      "Build customized creative tools on top of a minimal Rust core. Add plugins for timelines, MIDI, animation, or your own domain-specific workflows.",
+    url: "https://lunaris.shuntia.net",
+    siteName: "Lunaris",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Lunaris — Minimal core, infinite possibilities",
+    description:
+      "Compose plugins to create video editors, DAWs, animation suites, or whatever creative tool you imagine.",
+  },
+};
 
 const builds = [
   {

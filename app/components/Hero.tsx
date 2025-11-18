@@ -49,6 +49,9 @@ export default function Hero() {
         />
       </motion.div>
       <div className="relative z-10 flex max-w-5xl flex-col items-center gap-8">
+        <p className={`${elianto.className} text-4xl sm:text-5xl tracking-[0.5em] text-white/90`}>
+          LUNARIS
+        </p>
         <p className={`${inter.className} text-sm uppercase tracking-[0.3em] text-indigo-300`}>
           v0.1 pre-release
         </p>
