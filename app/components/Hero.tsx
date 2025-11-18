@@ -36,7 +36,7 @@ export default function Hero() {
     >
       <motion.div
         aria-hidden
-        className="absolute inset-0"
+        className="pointer-events-none fixed inset-0 -z-10"
         style={{ x: springX, y: springY }}
       >
         <Image
