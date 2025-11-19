@@ -90,19 +90,21 @@ const pluginSnippet = `use lunaris::prelude::*;
 pub struct TimelinePlugin;
 
 impl Plugin for TimelinePlugin {
-    fn build(&self, app: &mut App) {
-        app.register_system(UpdateStage, timeline::update)
-           .expose_api("editor.timeline", timeline::api);
+    fn register(&self, registry: &mut PluginRegistry) {
+        registry.register_tool("timeline", TimelineTool::new());
+        registry.register_codec("h264", H264Codec::new());
+    }
+    fn name(&self) -> &str {
+        "Timeline Plugin"
+    }
+    fn version(&self) -> &str {
+        "0.1.0"
+    }
+    fn description(&self) -> &str {
+        "Provides timeline and codec support for video editing."
     }
 }
-
-pub fn bootstrap() {
-    App::new()
-        .add_plugin(CorePlugin)
-        .add_plugin(RenderPlugin)
-        .add_plugin(TimelinePlugin)
-        .run();
-}`;
+`;
 
 const getStarted = [
   {
