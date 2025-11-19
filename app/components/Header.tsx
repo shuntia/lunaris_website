@@ -38,7 +38,12 @@ export default function Header() {
       <Link href="/app/" className={`${elianto.className} text-4xl grow`}>
         LUNARIS
       </Link>
-      <a href="https://github.com/shuntia/lunaris" className={`grow text-right ${montserrat.className} text-3xl`}>GitHub</a>
+      <a
+        href="https://github.com/shuntia/lunaris"
+        className={`grow text-right ${montserrat.className} text-3xl`}
+      >
+        GitHub
+      </a>
     </motion.header>
   );
 }
